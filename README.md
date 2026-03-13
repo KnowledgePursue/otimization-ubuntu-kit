@@ -1,147 +1,120 @@
-# 🚀 Server Optimizer (Safe Mode)
+# 🚀 Server Optimizer (Safe Mode v2)
 
-Script profissional de otimização automática para servidores Linux pequenos.
+Script profissional para bootstrap e hardening de servidores Linux.
 
-Projetado especialmente para servidores:
+Projetado para servidores pequenos:
 
-* ✅ 2 CPU
-* ✅ 2GB RAM
-* ✅ Aplicações Web
-* ✅ Containers / Docker
-* ✅ Reverse Proxy
-* ✅ APIs
-
-O script aplica otimizações **seguras e verificadas** no sistema e no Nginx.
+* 2 CPU
+* 2GB RAM
+* aplicações web
+* nginx / docker / APIs
 
 ---
 
-# 📦 O que o script otimiza
+# 🔥 Firewall Hardening
 
-## 🌐 Nginx
+O script detecta automaticamente qual firewall está ativo:
 
-* worker_processes automático
-* worker_connections otimizado
+* UFW
+* Firewalld
+* IPTables
+
+E aplica política segura:
+
+* libera apenas:
+
+  * 22 (SSH)
+  * 80 (HTTP)
+  * 443 (HTTPS)
+* bloqueia todo o resto
+* mantém conexões estabelecidas
+* cria backup automático das regras
+
+---
+
+# 🌐 Nginx Optimization
+
+* worker_processes auto
+* worker_connections 4096
 * sendfile
 * tcp_nopush
 * tcp_nodelay
 * gzip
-* validação automática (`nginx -t`)
-* reload seguro
-* backup automático antes de qualquer alteração
+* validação automática
 
 ---
 
-## 🧠 Kernel Linux (sysctl)
+# 🧠 Kernel Optimization
 
-* tuning de TCP stack
-* aumento de backlog de conexões
-* reutilização de sockets
-* aumento de buffers de rede
-* melhoria de throughput
+* TCP backlog tuning
+* port range tuning
+* reuse de sockets
 * redução de timeout TCP
-* otimização de portas efêmeras
+* buffers de rede
+* swappiness tuning
 
 ---
 
-## 📁 File Descriptors
+# 📁 File Descriptors
 
-Aumenta limite de arquivos abertos:
+Limite aumentado para:
 
-Antes: ~1024
-Depois: ~65535
-
-Essencial para servidores web com muitas conexões.
+65535
 
 ---
 
-## 💾 Swap Optimization
-
-Configura:
-
-vm.swappiness = 10
-
-Evita uso excessivo de swap e melhora latência.
-
----
-
-# 🛠️ Como usar no servidor
-
-## 1️⃣ Clonar o repositório
+# 🛠️ Como usar
 
 ```bash
 git clone https://github.com/SEU-USUARIO/server-optimizer.git
 cd server-optimizer
-```
-
----
-
-## 2️⃣ Dar permissão de execução
-
-```bash
 chmod +x server-optimizer.sh
-```
-
----
-
-## 3️⃣ Executar como root
-
-```bash
 sudo ./server-optimizer.sh
 ```
 
 ---
 
-# 🔐 Segurança do Script
+# 📂 Arquivos modificados
 
-O script foi projetado para **não quebrar o servidor**.
-
-Ele:
-
-* cria backup automático do nginx.conf
-* só altera configurações se necessário
-* testa a configuração antes de aplicar
-* restaura automaticamente se houver erro
-* não sobrescreve configurações críticas existentes
-* cria arquivos de otimização separados quando possível
+* /etc/nginx/nginx.conf
+* /etc/nginx/conf.d/performance.conf
+* /etc/sysctl.d/99-server-optimization.conf
+* /etc/security/limits.d/99-server.conf
+* regras de firewall
 
 ---
 
-# 📊 Ganho esperado
+# 🧯 Backup
 
-Em servidores pequenos:
-
-* antes: ~1500 conexões simultâneas
-* depois: ~8000+ conexões simultâneas
-
-(depende da aplicação e carga)
-
----
-
-# 📂 Arquivos modificados pelo script
+iptables:
 
 ```
-/etc/nginx/nginx.conf
-/etc/nginx/conf.d/performance.conf
-/etc/sysctl.d/99-server-optimization.conf
-/etc/security/limits.d/99-server.conf
+/root/iptables.backup.DATA
+```
+
+nginx:
+
+```
+/etc/nginx/nginx.conf.backup.DATA
 ```
 
 ---
 
-# 🔄 Aplicar novamente
+# ⚠️ IMPORTANTE
 
-Sempre que quiser reaplicar otimizações:
+Após rodar o script:
 
-```bash
-sudo ./server-optimizer.sh
-```
+* confirme que o SSH continua acessível
+* valide sites na porta 80/443
+* valide containers expostos
 
 ---
 
-# 🧯 Em caso de problema
+# 👨‍💻 Uso
 
-Restaurar backup manual:
+Ideal para:
 
-```bash
-ls /etc/nginx/ng
-```
+* bootstrap de VPS
+* preparação para produção
+* otimização rápida
+* hardening inicial
