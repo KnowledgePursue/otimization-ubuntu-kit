@@ -67,7 +67,7 @@ Limite aumentado para:
 
 ```bash
 git clone https://github.com/KnowledgePursue/otimization-ubuntu-kit.git
-cd server-optimizer
+cd otimization-ubuntu-kit
 chmod +x server-optimizer.sh
 sudo ./server-optimizer.sh
 ```
