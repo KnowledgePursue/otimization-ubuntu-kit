@@ -66,7 +66,7 @@ Limite aumentado para:
 # 🛠️ Como usar
 
 ```bash
-git clone https://github.com/KnowledgePursue/server-optimizer.git
+git clone https://github.com/KnowledgePursue/otimization-ubuntu-kit.git
 cd server-optimizer
 chmod +x server-optimizer.sh
 sudo ./server-optimizer.sh
